@@ -1,0 +1,225 @@
+{% extends "layout.html" %}
+
+{%block title%} Hotel Indexer {%endblock%}
+
+
+{% block header %}
+<div class="row" >
+    <div class="col-xl-12 order-xl-1" style="text-align: center;">
+        <img  src="{{ url_for('static',filename='img/icons/Hotels_-02.png') }}"/>
+    </div>
+</div>
+
+<div class="col-4 text-right" style="display: none;" >
+    <a href="/reset_index" class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i> reset index</a>
+</div>
+  {%if index%}
+      <div class="row">
+          <div class="col-xl-12 order-xl-1">
+              <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                  <div class="row align-items-center">
+                    <div class="col-8">
+                      <h3 class="mb-0"><i class="fas fa-hotel"></i> Hotel Indexer</h3>
+                    </div>
+                    <div class="col-4 text-right" >
+                        <a href="/reset_index" class="btn btn-sm btn-primary"><i class="fas fa-trash-alt"></i> reset index</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <form method="POST">
+                    <!-- Select Hotel -->
+                    <div class="pl-lg-4">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div class="form-group focused">
+                            <label class="form-control-label" for="input-address">Select Hotel</label>
+                            <select id="selected_hotel" name="selected_hotel" class="form-control form-control-alternative">
+                              {% for h in hotels%}
+                                <option>{{h}}</option>
+                              {%endfor%}
+                            </select>
+                          </div>
+                          <div class="text-center">
+                            <button type="submit" class="btn btn-primary my-4"><i class="fas fa-search"></i> Search</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+      </div>
+  {%else%}
+  <div class="row">
+      <div class="col-xl-12 order-xl-1">
+          <div class="card bg-secondary shadow">
+            <div class="card-header bg-white border-0">
+              <div class="row align-items-center">
+                <div class="col-8">
+                  <h3 class="mb-0"><i class="fas fa-hotel"></i> Hotel Indexer</h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <form method="POST" action="elasticindex_hotels">
+                <!-- Select Hotel -->
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group focused">
+                        <h4>Index hotels using <strong>ElasticSearch</strong> </h4>
+                        <small>ElasticSearch must be opened on the default port</small>
+                      </div>
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-primary my-4">
+                            <i class="fas fa-clipboard-list"></i> Index
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+  </div>
+  {%endif%}    
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+  strong{
+    color: blue;
+  }
+</style>
+
+{%if hotel_details%}
+<div class="row">
+  <div class="col">
+    <div class="card shadow">
+      <div class="card-header border-0">
+        <h3 class="mb-0">Tones analysis</h3>
+        <strong style="color:blue">{{selected_hotel}}</strong>
+        <small>{{hotel_details[0]["address"]}}</small>
+      </div>
+      <div class="table-responsive">
+        <table class="table align-items-center table-flush">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Tone</th>
+              <th scope="col">Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for key in tones %}
+              <tr>
+                  <td>
+                      {{key}}
+                    </td>
+                    <td>
+                        {{tones[key]}} 
+                      </td>
+              </tr>
+                  
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">Hotel Details</h3>
+          <strong style="color:blue">{{selected_hotel}}</strong>
+          <small>{{hotel_details[0]["address"]}}</small>
+        </div>
+        <div class="card-body">
+            <div class="pl-lg-4">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group focused">
+                      <label class="form-control-label" for="input-username">Country : <strong>{{hotel_details[0]["country"]}}</strong></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                      <div class="form-group focused">
+                        <label class="form-control-label" for="input-username">City : <strong>{{hotel_details[0]["city"]}}</strong></label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-lg-6">
+                        <div class="form-group focused">
+                          <label class="form-control-label" for="input-username">Province : <strong>{{hotel_details[0]["province"]}}</strong></label>
+                        </div>
+                      </div>
+                    </div>
+              </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+    {% for hotel in hotel_details %}
+    <br>
+    <div class="row">
+        <div class="col">
+            <div class="card bg-secondary shadow">
+                <div class="card-header bg-white border-0">
+                  <div class="row align-items-center">
+                    <div class="col-8">
+                      <h3 class="mb-0">{{hotel["reviews.title"]}}</h3>
+                      <small>by : <strong>{{hotel["reviews.username"]}} </strong> from {{hotel["reviews.userCity"]}}/{{hotel["reviews.userProvince"]}}</small>
+                    </div>
+                    <div class="col-4 text-right" style="float: right;">
+                      <small> {{hotel["reviews.date"]}}</small>
+                      <a href="#!" class="btn btn-sm btn-primary">{{hotel["reviews.rating"]}} stars</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <form>
+                    <div class="pl-lg-4">
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <p>
+                              {{hotel["reviews.text"]}}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+        </div>
+       
+
+    </div>
+  
+
+    {% endfor %}
+  </div>
+{%endif%}
+
+{% endblock %}
+
+
+{% block javascript %}
+  <script>
+    $( document ).ready(function() {
+        $("#selected_hotel").val("Days Inn Barstow")
+    });
+  </script>
+{% endblock %}

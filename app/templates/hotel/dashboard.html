@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{%block title%} Dashboard {%endblock%}
+
+
+{% block header %}
+    <div class="row">
+        <div class="col-xl-6 order-xl-1">
+            <a class="nav-link " href="/tone_analyzer">
+                <div class="card bg-secondary shadow btn btn-primary my-4">
+                    <div class="card-body" style="text-align: center;">
+                          <img  src="{{ url_for('static',filename='img/icons/Hotel-03.png') }}"/>
+                    </div>
+                  </div>
+            </a>
+          </div>
+
+          <div class="col-xl-6 order-xl-1">
+            <a  class="nav-link " href="/hotel_indexer">
+              <div class="card bg-secondary shadow btn btn-primary my-4">
+                  <div class="card-body" style="text-align: center;">
+                        <img  src="{{ url_for('static',filename='img/icons/Hotel-04.png') }}"/>
+                  </div>
+                </div>
+            </a>
+             
+            </div>
+    </div>
+     
+{% endblock %}
+
+
+{% block content %}
+{% endblock %}
+
+
+{% block javascript %}
+{% endblock %}
