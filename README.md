@@ -1,26 +1,54 @@
-Example 5
-=========
+# Hotel Analyzer
+![enter image description here](https://github.com/theamrzaki/elasticsearch-toneanalysis-hotels_analyzer/blob/master/app/static/img/icons/Hotel-05-05.png?raw=true)
 
-This example shows a scalable application structure.
+Hotel analyzer is a **Flast app** containing 2 main modules
+ - Tone analysis using **IBM watson**
+ - Indexer using **elasticsearch**
 
-Running the application
------------------------
 
-To run this example follow these steps:
+# App Structure
 
-- Activate a virtual environment that contains the packages in `../requirements.txt`
-- Set a `FLASK_CONFIG` environment variable to `development` or `production` to select the proper configuration. If this variable is not set `development` is used by default.
-- Set a `MONGO_DEV_URI` (development) or `MONGO_URI` (production) environment variable to the MongoDB database for the application.
-- To start the application run the following command:
+## Tone analysis
+![enter image description here](https://github.com/theamrzaki/elasticsearch-toneanalysis-hotels_analyzer/blob/master/app/static/img/icons/Hotel-03.png?raw=true)
+ 1. First choose a hotel from the list
+ 2. then the app would use **IBM Watson** to get the analysis of each review of that selected hotel 
+ 3. then it aggregates all of them and views the final output 
 
-        (venv) $ python manage.py runserver
+## Indexer
+![enter image description here](https://github.com/theamrzaki/elasticsearch-toneanalysis-hotels_analyzer/blob/master/app/static/img/icons/Hotel-04.png?raw=true)
 
-Running the test suite
-----------------------
+> first the app would ask you to index the csv file, you must have **Elastic search** and it must be opened on the default port
 
-This application contains unit tests, which can be executed with the following steps:
 
-- Set a `MONGO_TEST_URI` environment variable to the MongoDB database used for testing. Do not use the development or production databases here, as the tests will destroy their contents.
-- Run the tests with the following command:
+ 1. First choose a hotel from the list
+ 2. Tone analysis
+	 - then the app would use **IBM Watson** to get the analysis of each review of that selected hotel 
+	 - then it aggregates all of them and views the final output 
+ 3. Indexer
+	 - using **Elastic search** , queries on the selected hotel
+	 - views the output having **max score**
 
-        (venv) $ python manage.py test
+
+# How to run
+
+    pip install -r requirements.txt
+    python manage.py runserver -d
+
+# Samples
+
+## Dashboard
+![enter image description here](https://github.com/theamrzaki/elasticsearch-toneanalysis-hotels_analyzer/blob/master/app/static/img/samples/Dashboard.png?raw=true)
+
+## Tone Analyzer
+![enter image description here](https://github.com/theamrzaki/elasticsearch-toneanalysis-hotels_analyzer/blob/master/app/static/img/samples/Tone%20Analyzer.png?raw=true)
+
+## Hotel Indexer
+### First set index
+![enter image description here](https://github.com/theamrzaki/elasticsearch-toneanalysis-hotels_analyzer/blob/master/app/static/img/samples/First%20Index.png?raw=true)
+### Then Choose hotel to get all its details
+![enter image description here](https://github.com/theamrzaki/elasticsearch-toneanalysis-hotels_analyzer/blob/master/app/static/img/samples/Hotel%20indexer.png?raw=true)
+
+
+
+> ### IF any problem occurs while running
+> Feel free to reach out , i am happy to help
